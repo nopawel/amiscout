@@ -6,11 +6,11 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    loadedMeetups: [
+    loadedReports: [
       {
         imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/47/New_york_times_square-terabass.jpg',
         id: 'afajfjadfaadfa323',
-        title: 'Meetup in New York',
+        title: 'Report in New York',
         date: new Date(),
         location: 'New York',
         description: 'New York, New York!'
@@ -18,7 +18,7 @@ export const store = new Vuex.Store({
       {
         imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/7a/Paris_-_Blick_vom_gro%C3%9Fen_Triumphbogen.jpg',
         id: 'aadsfhbkhlk1241',
-        title: 'Meetup in Paris',
+        title: 'Report in Paris',
         date: new Date(),
         location: 'Paris',
         description: 'It\'s Paris!'
@@ -29,11 +29,11 @@ export const store = new Vuex.Store({
     error: null
   },
   mutations: {
-    setLoadedMeetups (state, payload) {
-      state.loadedMeetups = payload
+    setLoadedReports (state, payload) {
+      state.loadedReports = payload
     },
-    createMeetup (state, payload) {
-      state.loadedMeetups.push(payload)
+    createReport (state, payload) {
+      state.loadedReports.push(payload)
     },
     setUser (state, payload) {
       state.user = payload
@@ -49,14 +49,14 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
-    loadMeetups ({commit}) {
+    loadReports ({commit}) {
       commit('setLoading', true)
-      firebase.database().ref('meetups').once('value')
+      firebase.database().ref('reports').once('value')
         .then((data) => {
-          const meetups = []
+          const reports = []
           const obj = data.val()
           for (let key in obj) {
-            meetups.push({
+            reports.push({
               id: key,
               title: obj[key].title,
               description: obj[key].description,
@@ -65,7 +65,7 @@ export const store = new Vuex.Store({
               creatorId: obj[key].creatorId
             })
           }
-          commit('setLoadedMeetups', meetups)
+          commit('setLoadedReports', reports)
           commit('setLoading', false)
         })
         .catch(
@@ -75,8 +75,8 @@ export const store = new Vuex.Store({
           }
         )
     },
-    createMeetup ({commit, getters}, payload) {
-      const meetup = {
+    createReport ({commit, getters}, payload) {
+      const report = {
         title: payload.title,
         location: payload.location,
         imageUrl: payload.imageUrl,
@@ -84,11 +84,11 @@ export const store = new Vuex.Store({
         date: payload.date.toISOString(),
         creatorId: getters.user.id
       }
-      firebase.database().ref('meetups').push(meetup)
+      firebase.database().ref('reports').push(report)
         .then((data) => {
           const key = data.key
-          commit('createMeetup', {
-            ...meetup,
+          commit('createReport', {
+            ...report,
             id: key
           })
         })
@@ -106,7 +106,7 @@ export const store = new Vuex.Store({
             commit('setLoading', false)
             const newUser = {
               id: user.uid,
-              registeredMeetups: []
+              registeredReports: []
             }
             commit('setUser', newUser)
           }
@@ -128,7 +128,7 @@ export const store = new Vuex.Store({
             commit('setLoading', false)
             const newUser = {
               id: user.uid,
-              registeredMeetups: []
+              registeredReports: []
             }
             commit('setUser', newUser)
           }
@@ -142,7 +142,7 @@ export const store = new Vuex.Store({
         )
     },
     autoSignIn ({commit}, payload) {
-      commit('setUser', {id: payload.uid, registeredMeetups: []})
+      commit('setUser', {id: payload.uid, registeredReports: []})
     },
     logout ({commit}) {
       firebase.auth().signOut()
@@ -153,18 +153,18 @@ export const store = new Vuex.Store({
     }
   },
   getters: {
-    loadedMeetups (state) {
-      return state.loadedMeetups.sort((meetupA, meetupB) => {
-        return meetupA.date > meetupB.date
+    loadedReports (state) {
+      return state.loadedReports.sort((reportA, reportB) => {
+        return reportA.date > reportB.date
       })
     },
-    featuredMeetups (state, getters) {
-      return getters.loadedMeetups.slice(0, 5)
+    featuredReports (state, getters) {
+      return getters.loadedReports.slice(0, 5)
     },
-    loadedMeetup (state) {
-      return (meetupId) => {
-        return state.loadedMeetups.find((meetup) => {
-          return meetup.id === meetupId
+    loadedReport (state) {
+      return (reportId) => {
+        return state.loadedReports.find((report) => {
+          return report.id === reportId
         })
       }
     },

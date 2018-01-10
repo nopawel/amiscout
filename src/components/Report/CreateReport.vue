@@ -2,12 +2,12 @@
   <v-container>
     <v-layout row>
       <v-flex xs12 sm6 offset-sm3>
-        <h4>Create a new Meetup</h4>
+        <h4>Create a new Report</h4>
       </v-flex>
     </v-layout>
     <v-layout row>
       <v-flex xs12>
-        <form @submit.prevent="onCreateMeetup">
+        <form @submit.prevent="onCreateReport">
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
               <v-text-field
@@ -74,7 +74,7 @@
               <v-btn
                 class="primary"
                 :disabled="!formIsValid"
-                type="submit">Create Meetup</v-btn>
+                type="submit">Create Report</v-btn>
             </v-flex>
           </v-layout>
         </form>
@@ -117,19 +117,19 @@
       }
     },
     methods: {
-      onCreateMeetup () {
+      onCreateReport () {
         if (!this.formIsValid) {
           return
         }
-        const meetupData = {
+        const reportData = {
           title: this.title,
           location: this.location,
           imageUrl: this.imageUrl,
           description: this.description,
           date: this.submittableDateTime
         }
-        this.$store.dispatch('createMeetup', meetupData)
-        this.$router.push('/meetups')
+        this.$store.dispatch('createReport', reportData)
+        this.$router.push('/reports')
       }
     }
   }

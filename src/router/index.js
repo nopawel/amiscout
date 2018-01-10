@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
-import Meetups from '@/components/Meetup/Meetups'
-import CreateMeetup from '@/components/Meetup/CreateMeetup'
+import Reports from '@/components/Report/Reports'
+import CreateReport from '@/components/Report/CreateReport'
 import Profile from '@/components/User/Profile'
 import Signup from '@/components/User/Signup'
 import Signin from '@/components/User/Signin'
-import Meetup from '@/components/Meetup/Meetup'
+import Report from '@/components/Report/Report'
 import AuthGuard from './auth-guard'
 
 Vue.use(Router)
@@ -19,21 +19,21 @@ export default new Router({
       component: Home
     },
     {
-      path: '/meetups',
-      name: 'Meetups',
-      component: Meetups
+      path: '/reports',
+      name: 'Reports',
+      component: Reports
     },
     {
-      path: '/meetup/new',
-      name: 'CreateMeetup',
-      component: CreateMeetup,
+      path: '/report/new',
+      name: 'CreateReport',
+      component: CreateReport,
       beforeEnter: AuthGuard
     },
     {
-      path: '/meetups/:id',
-      name: 'Meetup',
+      path: '/reports/:id',
+      name: 'Report',
       props: true,
-      component: Meetup
+      component: Report
     },
     {
       path: '/profile',

@@ -34,6 +34,6 @@ new Vue({
         this.$store.dispatch('autoSignIn', user)
       }
     })
-    this.$store.dispatch('loadMeetups')
+    this.$store.dispatch('loadReports')
   }
 })

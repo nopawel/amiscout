@@ -4,15 +4,15 @@
       <v-flex xs12>
         <v-card>
           <v-card-title>
-            <h6 class="primary--text">{{ meetup.title }}</h6>
+            <h6 class="primary--text">{{ report.title }}</h6>
           </v-card-title>
           <v-card-media
-            :src="meetup.imageUrl"
+            :src="report.imageUrl"
             height="400px"
           ></v-card-media>
           <v-card-text>
-            <div class="info--text">{{ meetup.date | date }} - {{ meetup.location }}</div>
-            <div>{{ meetup.description }}</div>
+            <div class="info--text">{{ report.date | date }} - {{ report.location }}</div>
+            <div>{{ report.description }}</div>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -28,8 +28,8 @@
   export default {
     props: ['id'],
     computed: {
-      meetup () {
-        return this.$store.getters.loadedMeetup(this.id)
+      report () {
+        return this.$store.getters.loadedReport(this.id)
       }
     }
   }
