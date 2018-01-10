@@ -25,7 +25,7 @@ new Vue({
       authDomain: 'amiscout-190313.firebaseapp.com',
       databaseURL: 'https://amiscout-190313.firebaseio.com',
       projectId: 'amiscout-190313',
-      storageBucket: 'amiscout-190313.appspot.com',
+      storageBucket: 'gs://amiscout-190313.appspot.com',
       messagingSenderId: '62989941336'
 
     })
