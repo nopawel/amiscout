@@ -2,10 +2,10 @@
   <v-container>
     <v-layout row wrap>
       <v-flex xs12 sm6 class="text-xs-center text-sm-right">
-        <v-btn large router to="/reports" class="info">Explore Reports</v-btn>
+        <v-btn large router to="/matches" class="info">Explore Matches</v-btn>
       </v-flex>
       <v-flex xs12 sm6 class="text-xs-center text-sm-left">
-        <v-btn large router to="/report/new" class="info">Organize Report</v-btn>
+        <v-btn large router to="/match/new" class="info">Organize Match</v-btn>
       </v-flex>
     </v-layout>
     <v-layout>
@@ -22,12 +22,12 @@
       <v-flex xs12>
         <v-carousel style="cursor: pointer;">
           <v-carousel-item
-            v-for="report in reports"
-            :src="report.imageUrl"
-            :key="report.id"
-            @click="onLoadReport(report.id)">
+            v-for="match in matches"
+            :src="match.imageUrl"
+            :key="match.id"
+            @click="onLoadMatch(match.id)">
             <div class="title">
-              {{ report.title }}
+              {{ match.title }}
             </div>
           </v-carousel-item>
         </v-carousel>
@@ -35,7 +35,7 @@
     </v-layout>
     <v-layout row wrap  class="mt-2">
       <v-flex xs12 class="text-xs-center">
-       <p>Join our awesome reports!</p>
+       <p>Join our awesome matches!</p>
       </v-flex>
     </v-layout>
   </v-container>
@@ -44,16 +44,16 @@
 <script>
   export default {
     computed: {
-      reports () {
-        return this.$store.getters.featuredReports
+      matches () {
+        return this.$store.getters.featuredMatches
       },
       loading () {
         return this.$store.getters.loading
       }
     },
     methods: {
-      onLoadReport (id) {
-        this.$router.push('/reports/' + id)
+      onLoadMatch (id) {
+        this.$router.push('/matches/' + id)
       }
     }
   }

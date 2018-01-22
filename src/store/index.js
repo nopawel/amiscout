@@ -6,11 +6,11 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    loadedReports: [
+    loadedMatches: [
       {
         imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/47/New_york_times_square-terabass.jpg',
         id: 'afajfjadfaadfa323',
-        title: 'Report in New York',
+        title: 'Match in New York',
         date: new Date(),
         location: 'New York',
         description: 'New York, New York!'
@@ -18,7 +18,7 @@ export const store = new Vuex.Store({
       {
         imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/7a/Paris_-_Blick_vom_gro%C3%9Fen_Triumphbogen.jpg',
         id: 'aadsfhbkhlk1241',
-        title: 'Report in Paris',
+        title: 'Match in Paris',
         date: new Date(),
         location: 'Paris',
         description: 'It\'s Paris!'
@@ -29,11 +29,11 @@ export const store = new Vuex.Store({
     error: null
   },
   mutations: {
-    setLoadedReports (state, payload) {
-      state.loadedReports = payload
+    setLoadedMatches (state, payload) {
+      state.loadedMatches = payload
     },
-    createReport (state, payload) {
-      state.loadedReports.push(payload)
+    createMatch (state, payload) {
+      state.loadedMatches.push(payload)
     },
     setUser (state, payload) {
       state.user = payload
@@ -49,14 +49,14 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
-    loadReports ({commit}) {
+    loadMatches ({commit}) {
       commit('setLoading', true)
-      firebase.database().ref('reports').once('value')
+      firebase.database().ref('matches').once('value')
         .then((data) => {
-          const reports = []
+          const matches = []
           const obj = data.val()
           for (let key in obj) {
-            reports.push({
+            matches.push({
               id: key,
               title: obj[key].title,
               description: obj[key].description,
@@ -65,7 +65,7 @@ export const store = new Vuex.Store({
               creatorId: obj[key].creatorId
             })
           }
-          commit('setLoadedReports', reports)
+          commit('setLoadedMatches', matches)
           commit('setLoading', false)
         })
         .catch(
@@ -75,8 +75,8 @@ export const store = new Vuex.Store({
           }
         )
     },
-    createReport ({commit, getters}, payload) {
-      const report = {
+    createMatch ({commit, getters}, payload) {
+      const match = {
         title: payload.title,
         location: payload.location,
         description: payload.description,
@@ -85,7 +85,7 @@ export const store = new Vuex.Store({
       }
       let imageUrl
       let key
-      firebase.database().ref('reports').push(report)
+      firebase.database().ref('matches').push(match)
         .then((data) => {
           key = data.key
           return key
@@ -93,16 +93,16 @@ export const store = new Vuex.Store({
         .then(key => {
           const filename = payload.image.name
           const ext = filename.slice(filename.lastIndexOf('.'))
-          // return firebase.storage().ref('reports/' + key + '.' + ext).put(payload.image)
-          return firebase.storage().ref('reports/' + key + ext).put(payload.image)
+          // return firebase.storage().ref('matches/' + key + '.' + ext).put(payload.image)
+          return firebase.storage().ref('matches/' + key + ext).put(payload.image)
         })
         .then(fileData => {
           imageUrl = fileData.metadata.downloadURLs[0]
-          return firebase.database().ref('reports').child(key).update({imageUrl: imageUrl})
+          return firebase.database().ref('matches').child(key).update({imageUrl: imageUrl})
         })
         .then(() => {
-          commit('createReport', {
-            ...report,
+          commit('createMatch', {
+            ...match,
             imageUrl: imageUrl,
             id: key
           })
@@ -121,7 +121,7 @@ export const store = new Vuex.Store({
             commit('setLoading', false)
             const newUser = {
               id: user.uid,
-              registeredReports: []
+              registeredMatches: []
             }
             commit('setUser', newUser)
           }
@@ -143,7 +143,7 @@ export const store = new Vuex.Store({
             commit('setLoading', false)
             const newUser = {
               id: user.uid,
-              registeredReports: []
+              registeredMatches: []
             }
             commit('setUser', newUser)
           }
@@ -157,7 +157,7 @@ export const store = new Vuex.Store({
         )
     },
     autoSignIn ({commit}, payload) {
-      commit('setUser', {id: payload.uid, registeredReports: []})
+      commit('setUser', {id: payload.uid, registeredMatches: []})
     },
     logout ({commit}) {
       firebase.auth().signOut()
@@ -168,18 +168,18 @@ export const store = new Vuex.Store({
     }
   },
   getters: {
-    loadedReports (state) {
-      return state.loadedReports.sort((reportA, reportB) => {
-        return reportA.date > reportB.date
+    loadedMatches (state) {
+      return state.loadedMatches.sort((matchA, matchB) => {
+        return matchA.date > matchB.date
       })
     },
-    featuredReports (state, getters) {
-      return getters.loadedReports.slice(0, 5)
+    featuredMatches (state, getters) {
+      return getters.loadedMatches.slice(0, 5)
     },
-    loadedReport (state) {
-      return (reportId) => {
-        return state.loadedReports.find((report) => {
-          return report.id === reportId
+    loadedMatch (state) {
+      return (matchId) => {
+        return state.loadedMatches.find((match) => {
+          return match.id === matchId
         })
       }
     },

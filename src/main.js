@@ -6,12 +6,13 @@ import router from './router'
 import { store } from './store'
 import DateFilter from './filters/date'
 import AlertCmp from './components/Shared/Alert.vue'
-
+import EditMatchDetailsDialog from './components/Match/Edit/EditMatchDetailsDialog.vue'
 Vue.use(Vuetify)
 Vue.config.productionTip = false
 
 Vue.filter('date', DateFilter)
 Vue.component('app-alert', AlertCmp)
+Vue.component('app-edit-match-details-dialog', EditMatchDetailsDialog)
 
 /* eslint-disable no-new */
 new Vue({
@@ -34,6 +35,6 @@ new Vue({
         this.$store.dispatch('autoSignIn', user)
       }
     })
-    this.$store.dispatch('loadReports')
+    this.$store.dispatch('loadMatches')
   }
 })

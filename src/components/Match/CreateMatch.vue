@@ -2,12 +2,12 @@
   <v-container>
     <v-layout row>
       <v-flex xs12 sm6 offset-sm3>
-        <h4>Create a new Report</h4>
+        <h4>Create a new Match</h4>
       </v-flex>
     </v-layout>
     <v-layout row>
       <v-flex xs12>
-        <form @submit.prevent="onCreateReport">
+        <form @submit.prevent="onCreateMatch">
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
               <v-text-field
@@ -75,7 +75,7 @@
               <v-btn
                 class="primary"
                 :disabled="!formIsValid"
-                type="submit">Create Report</v-btn>
+                type="submit">Create Match</v-btn>
             </v-flex>
           </v-layout>
         </form>
@@ -119,22 +119,22 @@
       }
     },
     methods: {
-      onCreateReport () {
+      onCreateMatch () {
         if (!this.formIsValid) {
           return
         }
         if (!this.image) {
           return
         }
-        const reportData = {
+        const matchData = {
           title: this.title,
           location: this.location,
           image: this.image,
           description: this.description,
           date: this.submittableDateTime
         }
-        this.$store.dispatch('createReport', reportData)
-        this.$router.push('/reports')
+        this.$store.dispatch('createMatch', matchData)
+        this.$router.push('/matches')
       },
       onPickFile () {
         this.$refs.fileInput.click()

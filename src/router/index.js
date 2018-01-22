@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
-import Reports from '@/components/Report/Reports'
-import CreateReport from '@/components/Report/CreateReport'
+import Matches from '@/components/Match/Matches'
+import CreateMatch from '@/components/Match/CreateMatch'
 import Profile from '@/components/User/Profile'
 import Signup from '@/components/User/Signup'
 import Signin from '@/components/User/Signin'
-import Report from '@/components/Report/Report'
+import Match from '@/components/Match/Match'
 import AuthGuard from './auth-guard'
 
 Vue.use(Router)
@@ -19,21 +19,21 @@ export default new Router({
       component: Home
     },
     {
-      path: '/reports',
-      name: 'Reports',
-      component: Reports
+      path: '/matches',
+      name: 'Matches',
+      component: Matches
     },
     {
-      path: '/report/new',
-      name: 'CreateReport',
-      component: CreateReport,
+      path: '/match/new',
+      name: 'CreateMatch',
+      component: CreateMatch,
       beforeEnter: AuthGuard
     },
     {
-      path: '/reports/:id',
-      name: 'Report',
+      path: '/matches/:id',
+      name: 'Match',
       props: true,
-      component: Report
+      component: Match
     },
     {
       path: '/profile',
