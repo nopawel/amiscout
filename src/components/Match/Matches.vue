@@ -15,7 +15,7 @@
                 <v-card-title primary-title>
                   <div>
                     <h5 class="white--text mb-0">{{ match.title }}</h5>
-                    <div>{{ match.date | date }}</div>
+                    <div>{{ match.date | dataf }}</div>
                   </div>
                 </v-card-title>
                 <v-card-actions>

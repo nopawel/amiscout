@@ -35,6 +35,20 @@ export const store = new Vuex.Store({
     createMatch (state, payload) {
       state.loadedMatches.push(payload)
     },
+    updateMatch (state, payload) {
+      const match = state.loadedMatches.find(match => {
+        return match.id === payload.id
+      })
+      if (payload.title) {
+        match.title = payload.title
+      }
+      if (payload.description) {
+        match.description = payload.description
+      }
+      if (payload.date) {
+        match.date = payload.date
+      }
+    },
     setUser (state, payload) {
       state.user = payload
     },
@@ -112,6 +126,30 @@ export const store = new Vuex.Store({
         })
       // Reach out to firebase and store it
     },
+
+    updateMatchData ({commit}, payload) {
+      commit('setLoading', true)
+      const updateObj = {}
+      if (payload.title) {
+        updateObj.title = payload.title
+      }
+      if (payload.descritpion) {
+        updateObj.description = payload.description
+      }
+      if (payload.date) {
+        updateObj.date = payload.date
+      }
+      firebase.database().ref('matches').child(payload.id).update(updateObj)
+        .then(() => {
+          commit('setLoading', false)
+          commit('updateMatch', payload)
+        })
+        .catch(error => {
+          console.log(error)
+          commit('setLoading', false)
+        })
+    },
+
     signUserUp ({commit}, payload) {
       commit('setLoading', true)
       commit('clearError')

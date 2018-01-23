@@ -4,15 +4,18 @@ import App from './App'
 import * as firebase from 'firebase'
 import router from './router'
 import { store } from './store'
-import DateFilter from './filters/date'
+import DateFilter from './filters/dataf'
 import AlertCmp from './components/Shared/Alert.vue'
 import EditMatchDetailsDialog from './components/Match/Edit/EditMatchDetailsDialog.vue'
+import EditMatchDataDialog from './components/Match/Edit/EditMatchDataDialog.vue'
+
 Vue.use(Vuetify)
 Vue.config.productionTip = false
 
-Vue.filter('date', DateFilter)
+Vue.filter('dataf', DateFilter)
 Vue.component('app-alert', AlertCmp)
 Vue.component('app-edit-match-details-dialog', EditMatchDetailsDialog)
+Vue.component('app-edit-match-data-dialog', EditMatchDataDialog)
 
 /* eslint-disable no-new */
 new Vue({
