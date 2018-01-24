@@ -8,6 +8,7 @@ import DateFilter from './filters/dataf'
 import AlertCmp from './components/Shared/Alert.vue'
 import EditMatchDetailsDialog from './components/Match/Edit/EditMatchDetailsDialog.vue'
 import EditMatchDataDialog from './components/Match/Edit/EditMatchDataDialog.vue'
+import EditMatchTimeDialog from './components/Match/Edit/EditMatchTimeDialog.vue'
 
 Vue.use(Vuetify)
 Vue.config.productionTip = false
@@ -16,6 +17,7 @@ Vue.filter('dataf', DateFilter)
 Vue.component('app-alert', AlertCmp)
 Vue.component('app-edit-match-details-dialog', EditMatchDetailsDialog)
 Vue.component('app-edit-match-data-dialog', EditMatchDataDialog)
+Vue.component('app-edit-match-time-dialog', EditMatchTimeDialog)
 
 /* eslint-disable no-new */
 new Vue({

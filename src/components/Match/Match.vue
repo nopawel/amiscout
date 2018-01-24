@@ -28,12 +28,14 @@
             <div class="info--text">{{ match.date | dataf }} - {{ match.location }}</div>
             <div><app-edit-match-data-dialog :match="match" v-if="userIsCreator">  
             </app-edit-match-data-dialog>
+            <app-edit-match-time-dialog :match="match" v-if="userIsCreator">
+            </app-edit-match-time-dialog>
             </div>
             <div>{{ match.description }}</div>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn class="primary">Register</v-btn>
+            <v-btn class="primary">Donate match</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
