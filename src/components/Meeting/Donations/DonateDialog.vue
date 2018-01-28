@@ -7,7 +7,7 @@
   <v-container>
     <v-layout row wrap>
         <v-flex xs12>
-          <v-card-title>Edit Match Date</v-card-title>
+          <v-card-title>Edit Meeting Date</v-card-title>
         </v-flex> 
     </v-layout>
     <v-divider></v-divider>

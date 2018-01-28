@@ -26,7 +26,7 @@
         @click.stop="sideNav = !sideNav"
         class="hidden-sm-and-up "></v-toolbar-side-icon>
       <v-toolbar-title>
-        <router-link to="/" tag="span" style="cursor: pointer">Match Finder</router-link>
+        <router-link to="/" tag="span" style="cursor: pointer">Meeting Finder</router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-xs-only">
@@ -70,8 +70,8 @@
         ]
         if (this.userIsAuthenticated) {
           menuItems = [
-            {icon: 'supervisor_account', title: 'View Matches', link: '/matches'},
-            {icon: 'room', title: 'Organize Match', link: '/match/new'},
+            {icon: 'supervisor_account', title: 'View Meetinges', link: '/meetings'},
+            {icon: 'room', title: 'Organize Meeting', link: '/meeting/new'},
             {icon: 'person', title: 'Profile', link: '/profile'}
           ]
         }

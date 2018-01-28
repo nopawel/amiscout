@@ -2,10 +2,10 @@
   <v-container>
     <v-layout row wrap>
       <v-flex xs12 sm6 class="text-xs-center text-sm-right">
-        <v-btn large router to="/matches" class="info">Explore Matches</v-btn>
+        <v-btn large router to="/meetings" class="info">Explore Meetings</v-btn>
       </v-flex>
       <v-flex xs12 sm6 class="text-xs-center text-sm-left">
-        <v-btn large router to="/match/new" class="info">Organize Match</v-btn>
+        <v-btn large router to="/meeting/new" class="info">Organize Meeting</v-btn>
       </v-flex>
     </v-layout>
     <v-layout>
@@ -22,12 +22,12 @@
       <v-flex xs12>
         <v-carousel style="cursor: pointer;">
           <v-carousel-item
-            v-for="match in matches"
-            :src="match.imageUrl"
-            :key="match.id"
-            @click="onLoadMatch(match.id)">
+            v-for="meeting in meetings"
+            :src="meeting.imageUrl"
+            :key="meeting.id"
+            @click="onLoadMeeting(meeting.id)">
             <div class="title">
-              {{ match.title }}
+              {{ meeting.title }}
             </div>
           </v-carousel-item>
         </v-carousel>
@@ -35,7 +35,7 @@
     </v-layout>
     <v-layout row wrap  class="mt-2">
       <v-flex xs12 class="text-xs-center">
-       <p>Join our awesome matches!</p>
+       <p>Join our awesome meetings!</p>
       </v-flex>
     </v-layout>
   </v-container>
@@ -44,16 +44,16 @@
 <script>
   export default {
     computed: {
-      matches () {
-        return this.$store.getters.featuredMatches
+      meetings () {
+        return this.$store.getters.featuredMeetings
       },
       loading () {
         return this.$store.getters.loading
       }
     },
     methods: {
-      onLoadMatch (id) {
-        this.$router.push('/matches/' + id)
+      onLoadMeeting (id) {
+        this.$router.push('/meetings/' + id)
       }
     }
   }

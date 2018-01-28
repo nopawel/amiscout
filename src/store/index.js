@@ -6,21 +6,25 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    loadedMatches: [
+    loadedMeetings: [
       {
         imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/47/New_york_times_square-terabass.jpg',
         id: 'afajfjadfaadfa323',
-        title: 'Match in New York',
-        date: new Date(),
+        title: 'Meeting in New York',
+        start: new Date(),
+        end: new Date(),
         location: 'New York',
+        allday: true,
         description: 'New York, New York!'
       },
       {
         imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/7a/Paris_-_Blick_vom_gro%C3%9Fen_Triumphbogen.jpg',
         id: 'aadsfhbkhlk1241',
-        title: 'Match in Paris',
-        date: new Date(),
+        title: 'Meeting in Paris',
+        start: new Date(),
+        end: new Date(),
         location: 'Paris',
+        allday: false,
         description: 'It\'s Paris!'
       }
     ],
@@ -29,24 +33,27 @@ export const store = new Vuex.Store({
     error: null
   },
   mutations: {
-    setLoadedMatches (state, payload) {
-      state.loadedMatches = payload
+    setLoadedMeetings (state, payload) {
+      state.loadedMeetings = payload
     },
-    createMatch (state, payload) {
-      state.loadedMatches.push(payload)
+    createMeeting (state, payload) {
+      state.loadedMeetings.push(payload)
     },
-    updateMatch (state, payload) {
-      const match = state.loadedMatches.find(match => {
-        return match.id === payload.id
+    updateMeeting (state, payload) {
+      const meeting = state.loadedMeetings.find(meeting => {
+        return meeting.id === payload.id
       })
       if (payload.title) {
-        match.title = payload.title
+        meeting.title = payload.title
       }
       if (payload.description) {
-        match.description = payload.description
+        meeting.description = payload.description
       }
-      if (payload.date) {
-        match.date = payload.date
+      if (payload.start) {
+        meeting.start = payload.start
+      }
+      if (payload.end) {
+        meeting.end = payload.end
       }
     },
     setUser (state, payload) {
@@ -63,23 +70,26 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
-    loadMatches ({commit}) {
+    loadMeetings ({commit}) {
       commit('setLoading', true)
-      firebase.database().ref('matches').once('value')
+      firebase.database().ref('meetings').once('value')
         .then((data) => {
-          const matches = []
+          const meetings = []
           const obj = data.val()
           for (let key in obj) {
-            matches.push({
+            meetings.push({
               id: key,
               title: obj[key].title,
               description: obj[key].description,
               imageUrl: obj[key].imageUrl,
-              date: obj[key].date,
+              start: obj[key].start,
+              end: obj[key].end,
+              allDay: obj[key].allDay,
+              color: obj[key].color,
               creatorId: obj[key].creatorId
             })
           }
-          commit('setLoadedMatches', matches)
+          commit('setLoadedMeetings', meetings)
           commit('setLoading', false)
         })
         .catch(
@@ -89,17 +99,19 @@ export const store = new Vuex.Store({
           }
         )
     },
-    createMatch ({commit, getters}, payload) {
-      const match = {
+    createMeeting ({commit, getters}, payload) {
+      const meeting = {
         title: payload.title,
         location: payload.location,
         description: payload.description,
-        date: payload.date.toISOString(),
+        start: payload.start.toISOString(),
+        end: payload.end.toISOString(),
+        allday: payload.allday,
         creatorId: getters.user.id
       }
       let imageUrl
       let key
-      firebase.database().ref('matches').push(match)
+      firebase.database().ref('meetings').push(meeting)
         .then((data) => {
           key = data.key
           return key
@@ -107,16 +119,16 @@ export const store = new Vuex.Store({
         .then(key => {
           const filename = payload.image.name
           const ext = filename.slice(filename.lastIndexOf('.'))
-          // return firebase.storage().ref('matches/' + key + '.' + ext).put(payload.image)
-          return firebase.storage().ref('matches/' + key + ext).put(payload.image)
+          // return firebase.storage().ref('meetings/' + key + '.' + ext).put(payload.image)
+          return firebase.storage().ref('meetings/' + key + ext).put(payload.image)
         })
         .then(fileData => {
           imageUrl = fileData.metadata.downloadURLs[0]
-          return firebase.database().ref('matches').child(key).update({imageUrl: imageUrl})
+          return firebase.database().ref('meetings').child(key).update({imageUrl: imageUrl})
         })
         .then(() => {
-          commit('createMatch', {
-            ...match,
+          commit('createMeeting', {
+            ...meeting,
             imageUrl: imageUrl,
             id: key
           })
@@ -127,7 +139,7 @@ export const store = new Vuex.Store({
       // Reach out to firebase and store it
     },
 
-    updateMatchData ({commit}, payload) {
+    updateMeetingData ({commit}, payload) {
       commit('setLoading', true)
       const updateObj = {}
       if (payload.title) {
@@ -136,13 +148,16 @@ export const store = new Vuex.Store({
       if (payload.descritpion) {
         updateObj.description = payload.description
       }
-      if (payload.date) {
-        updateObj.date = payload.date
+      if (payload.start) {
+        updateObj.start = payload.start
       }
-      firebase.database().ref('matches').child(payload.id).update(updateObj)
+      if (payload.end) {
+        updateObj.end = payload.end
+      }
+      firebase.database().ref('meetings').child(payload.id).update(updateObj)
         .then(() => {
           commit('setLoading', false)
-          commit('updateMatch', payload)
+          commit('updateMeeting', payload)
         })
         .catch(error => {
           console.log(error)
@@ -159,7 +174,7 @@ export const store = new Vuex.Store({
             commit('setLoading', false)
             const newUser = {
               id: user.uid,
-              registeredMatches: []
+              registeredMeetings: []
             }
             commit('setUser', newUser)
           }
@@ -181,7 +196,7 @@ export const store = new Vuex.Store({
             commit('setLoading', false)
             const newUser = {
               id: user.uid,
-              registeredMatches: []
+              registeredMeetings: []
             }
             commit('setUser', newUser)
           }
@@ -195,7 +210,7 @@ export const store = new Vuex.Store({
         )
     },
     autoSignIn ({commit}, payload) {
-      commit('setUser', {id: payload.uid, donatedMatches: []})
+      commit('setUser', {id: payload.uid, donatedMeetings: []})
     },
     logout ({commit}) {
       firebase.auth().signOut()
@@ -206,18 +221,18 @@ export const store = new Vuex.Store({
     }
   },
   getters: {
-    loadedMatches (state) {
-      return state.loadedMatches.sort((matchA, matchB) => {
-        return matchA.date > matchB.date
+    loadedMeetings (state) {
+      return state.loadedMeetings.sort((meetingA, meetingB) => {
+        return meetingA.start > meetingB.start
       })
     },
-    featuredMatches (state, getters) {
-      return getters.loadedMatches.slice(0, 5)
+    featuredMeetings (state, getters) {
+      return getters.loadedMeetings.slice(0, 5)
     },
-    loadedMatch (state) {
-      return (matchId) => {
-        return state.loadedMatches.find((match) => {
-          return match.id === matchId
+    loadedMeeting (state) {
+      return (meetingId) => {
+        return state.loadedMeetings.find((meeting) => {
+          return meeting.id === meetingId
         })
       }
     },

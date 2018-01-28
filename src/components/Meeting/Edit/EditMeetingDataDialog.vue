@@ -7,7 +7,7 @@
   <v-container>
     <v-layout row wrap>
         <v-flex xs12>
-          <v-card-title>Edit Match Date</v-card-title>
+          <v-card-title>Edit Meeting Date</v-card-title>
         </v-flex> 
     </v-layout>
     <v-divider></v-divider>
@@ -28,7 +28,7 @@
 </template>
 <script>
   export default {
-    props: ['match'],
+    props: ['meeting'],
     data () {
       return {
         editDialog: false,
@@ -37,21 +37,21 @@
     },
     methods: {
       onsaveChanges () {
-        const newDate = new Date(this.match.date)
+        const newDate = new Date(this.meeting.start)
         const newDay = new Date(this.editableDate).getUTCDate()
         const newMonth = new Date(this.editableDate).getUTCMonth()
         const newYear = new Date(this.editableDate).getUTCFullYear()
         newDate.setUTCDate(newDay)
         newDate.setUTCMonth(newMonth)
         newDate.setUTCFullYear(newYear)
-        this.$store.dispatch('updateMatchData', {
-          id: this.match.id,
-          date: newDate
+        this.$store.dispatch('updateMeetingData', {
+          id: this.meeting.id,
+          start: newDate
         })
       }
     },
     created () {
-      this.editableDate = new Date(this.match.date)
+      this.editableDate = new Date(this.meeting.start)
     }
   }
 </script>

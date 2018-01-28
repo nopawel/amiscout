@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
-import Matches from '@/components/Match/Matches'
-import CreateMatch from '@/components/Match/CreateMatch'
+import Meetings from '@/components/Meeting/Meetings'
+import CreateMeeting from '@/components/Meeting/CreateMeeting'
 import Profile from '@/components/User/Profile'
 import Signup from '@/components/User/Signup'
 import Signin from '@/components/User/Signin'
-import Match from '@/components/Match/Match'
+import Meeting from '@/components/Meeting/Meeting'
 import AuthGuard from './auth-guard'
 
 Vue.use(Router)
@@ -19,21 +19,21 @@ export default new Router({
       component: Home
     },
     {
-      path: '/matches',
-      name: 'Matches',
-      component: Matches
+      path: '/meetings',
+      name: 'Meetings',
+      component: Meetings
     },
     {
-      path: '/match/new',
-      name: 'CreateMatch',
-      component: CreateMatch,
+      path: '/meeting/new',
+      name: 'CreateMeeting',
+      component: CreateMeeting,
       beforeEnter: AuthGuard
     },
     {
-      path: '/matches/:id',
-      name: 'Match',
+      path: '/meetings/:id',
+      name: 'Meeting',
       props: true,
-      component: Match
+      component: Meeting
     },
     {
       path: '/profile',

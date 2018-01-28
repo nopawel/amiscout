@@ -6,18 +6,19 @@ import router from './router'
 import { store } from './store'
 import DateFilter from './filters/dataf'
 import AlertCmp from './components/Shared/Alert.vue'
-import EditMatchDetailsDialog from './components/Match/Edit/EditMatchDetailsDialog.vue'
-import EditMatchDataDialog from './components/Match/Edit/EditMatchDataDialog.vue'
-import EditMatchTimeDialog from './components/Match/Edit/EditMatchTimeDialog.vue'
+import EditMeetingDetailsDialog from './components/Meeting/Edit/EditMeetingDetailsDialog.vue'
+import EditMeetingDataDialog from './components/Meeting/Edit/EditMeetingDataDialog.vue'
+import EditMeetingTimeDialog from './components/Meeting/Edit/EditMeetingTimeDialog.vue'
+import FullCalendar from 'vue-full-calendar'
 
 Vue.use(Vuetify)
 Vue.config.productionTip = false
-
+Vue.use(FullCalendar)
 Vue.filter('dataf', DateFilter)
 Vue.component('app-alert', AlertCmp)
-Vue.component('app-edit-match-details-dialog', EditMatchDetailsDialog)
-Vue.component('app-edit-match-data-dialog', EditMatchDataDialog)
-Vue.component('app-edit-match-time-dialog', EditMatchTimeDialog)
+Vue.component('app-edit-meeting-details-dialog', EditMeetingDetailsDialog)
+Vue.component('app-editVue.use(FullCalendar)-meeting-data-dialog', EditMeetingDataDialog)
+Vue.component('app-edit-meeting-time-dialog', EditMeetingTimeDialog)
 
 /* eslint-disable no-new */
 new Vue({
@@ -40,6 +41,6 @@ new Vue({
         this.$store.dispatch('autoSignIn', user)
       }
     })
-    this.$store.dispatch('loadMatches')
+    this.$store.dispatch('loadMeetings')
   }
 })

@@ -14,28 +14,29 @@
       <v-flex xs12>
         <v-card>
           <v-card-title>
-            <h6 class="primary--text">{{ match.title }}</h6>
+            <h6 class="primary--text">{{ meeting.title }}</h6>
             <template v-if="userIsCreator">
               <v-spacer></v-spacer>
-              <app-edit-match-details-dialog :match="match"></app-edit-match-details-dialog>
+              <app-edit-meeting-details-dialog :meeting="meeting"></app-edit-meeting-details-dialog>
             </template>
           </v-card-title>
           <v-card-media
-            :src="match.imageUrl"
+            :src="meeting.imageUrl"
             height="400px"
           ></v-card-media>
           <v-card-text>
-            <div class="info--text">{{ match.date | dataf }} - {{ match.location }}</div>
-            <div><app-edit-match-data-dialog :match="match" v-if="userIsCreator">  
-            </app-edit-match-data-dialog>
-            <app-edit-match-time-dialog :match="match" v-if="userIsCreator">
-            </app-edit-match-time-dialog>
+            <div class="info--text">{{ meeting.start | dataf }} - {{ meeting.location }}</div>
+             <div class="info--text">{{ meeting.end | dataf }} - {{ meeting.location }}</div>
+            <div><app-edit-meeting-data-dialog :meeting="meeting" v-if="userIsCreator">  
+            </app-edit-meeting-data-dialog>
+            <app-edit-meeting-time-dialog :meeting="meeting" v-if="userIsCreator">
+            </app-edit-meeting-time-dialog>
             </div>
-            <div>{{ match.description }}</div>
+            <div>{{ meeting.description }}</div>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn class="primary">Donate match</v-btn>
+            <v-btn class="primary">Donate meeting</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -47,8 +48,8 @@
   export default {
     props: ['id'],
     computed: {
-      match () {
-        return this.$store.getters.loadedMatch(this.id)
+      meeting () {
+        return this.$store.getters.loadedMeeting(this.id)
       },
       userIsAuthenticated () {
         return this.$store.getters.user !== undefined && this.$store.getters.user !== null
@@ -57,7 +58,7 @@
         if (!this.userIsAuthenticated) {
           return false
         }
-        return this.$store.getters.user.id === this.match.creatorId
+        return this.$store.getters.user.id === this.meeting.creatorId
       },
       loading () {
         return this.$store.getters.loading

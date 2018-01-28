@@ -2,12 +2,12 @@
   <v-container>
     <v-layout row>
       <v-flex xs12 sm6 offset-sm3>
-        <h4>Create a new Match</h4>
+        <h4>Create a new Meeting</h4>
       </v-flex>
     </v-layout>
     <v-layout row>
       <v-flex xs12>
-        <form @submit.prevent="onCreateMatch">
+        <form @submit.prevent="onCreateMeeting">
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
               <v-text-field
@@ -57,25 +57,45 @@
           </v-layout>
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
-              <h4>Choose a Data & Time</h4>
+            <v-checkbox
+                name="description"
+                label="All day meeting"
+                id="allday"
+                v-model="allday">
+                </v-checkbox>
+            </v-flex>
+          </v-layout>
+          <v-layout row>
+            <v-flex xs3 sm6 offset-sm2>
+              <h5>Choose meeting start Data & Time</h5>
+            </v-flex>
+            <v-flex xs3 sm6>
+              <h5>Choose meeting end Data & Time</h5>
             </v-flex>
           </v-layout>
           <v-layout row class="mb-2">
-            <v-flex xs12 sm6 offset-sm3>
-              <v-date-picker v-model="date"></v-date-picker>
+            <v-flex xs3 sm6 offset-sm2>
+              <v-date-picker v-model="start"></v-date-picker>
+            </v-flex>
+            <v-flex xs3 sm6>
+              <v-date-picker v-model="end"></v-date-picker>
             </v-flex>
           </v-layout>
           <v-layout row>
-            <v-flex xs12 sm6 offset-sm3>
-              <v-time-picker v-model="time" format="24hr"></v-time-picker>
+            <v-flex xs3 sm6 offset-sm2>
+              <v-time-picker v-model="starttime" format="24hr"></v-time-picker>
+            </v-flex>  
+              <v-flex xs6 sm6>
+              <v-time-picker v-model="endtime" format="24hr"></v-time-picker>
+            
             </v-flex>
           </v-layout>
-          <v-layout row>
-            <v-flex xs12 sm6 offset-sm3>
+          <v-layout row>  
+            <v-flex xs6 sm6 offset-sm10>
               <v-btn
                 class="primary"
                 :disabled="!formIsValid"
-                type="submit">Create Match</v-btn>
+                type="submit">Create Meeting</v-btn>
             </v-flex>
           </v-layout>
         </form>
@@ -92,8 +112,11 @@
         location: '',
         imageUrl: '',
         description: '',
-        date: new Date(),
-        time: new Date(),
+        start: new Date(),
+        starttime: new Date(),
+        end: new Date(),
+        endtime: new Date(),
+        allday: false,
         image: null
       }
     },
@@ -104,37 +127,52 @@
           this.imageUrl !== '' &&
           this.description !== ''
       },
-      submittableDateTime () {
-        const date = new Date(this.date)
-        if (typeof this.time === 'string') {
-          let hours = this.time.match(/^(\d+)/)[1]
-          const minutes = this.time.match(/:(\d+)/)[1]
-          date.setHours(hours)
-          date.setMinutes(minutes)
+      submittableStartTime () {
+        const start = new Date(this.start)
+        if (typeof this.starttime === 'string') {
+          let hours = this.starttime.match(/^(\d+)/)[1]
+          const minutes = this.starttime.match(/:(\d+)/)[1]
+          start.setHours(hours)
+          start.setMinutes(minutes)
         } else {
-          date.setHours(this.time.getHours())
-          date.setMinutes(this.time.getMinutes())
+          start.setHours(this.starttime.getHours())
+          start.setMinutes(this.starttime.getMinutes())
         }
-        return date
+        return start
+      },
+      submittableEndTime () {
+        const end = new Date(this.end)
+        if (typeof this.endtime === 'string') {
+          let hours = this.endtime.match(/^(\d+)/)[1]
+          const minutes = this.endtime.match(/:(\d+)/)[1]
+          end.setHours(hours)
+          end.setMinutes(minutes)
+        } else {
+          end.setHours(this.endtime.getHours())
+          end.setMinutes(this.endtime.getMinutes())
+        }
+        return end
       }
     },
     methods: {
-      onCreateMatch () {
+      onCreateMeeting () {
         if (!this.formIsValid) {
           return
         }
         if (!this.image) {
           return
         }
-        const matchData = {
+        const meetingData = {
           title: this.title,
           location: this.location,
           image: this.image,
           description: this.description,
-          date: this.submittableDateTime
+          allday: this.allday,
+          start: this.submittableStartTime,
+          end: this.submittableEndTime
         }
-        this.$store.dispatch('createMatch', matchData)
-        this.$router.push('/matches')
+        this.$store.dispatch('createMeeting', meetingData)
+        this.$router.push('/meetings')
       },
       onPickFile () {
         this.$refs.fileInput.click()

@@ -7,7 +7,7 @@
  	<v-container>
  		<v-layout row wrap>
       		<v-flex xs12>
-	  		<v-card-title>Edit Match</v-card-title>
+	  		<v-card-title>Edit Meeting</v-card-title>
 	  		</v-flex>	
 	 	</v-layout>
 		<v-divider></v-divider>
@@ -44,12 +44,12 @@
 </template>
 <script>
   export default {
-    props: ['match'],
+    props: ['meeting'],
     data () {
       return {
         editDialog: false,
-        editedTitle: this.match.title,
-        editedDescription: this.match.description
+        editedTitle: this.meeting.title,
+        editedDescription: this.meeting.description
       }
     },
     methods: {
@@ -58,8 +58,8 @@
           return
         }
         this.editDialog = false
-        this.$store.dispatch('updateMatchData', {
-          id: this.match.id,
+        this.$store.dispatch('updateMeetingData', {
+          id: this.meeting.id,
           title: this.editedTitle,
           description: this.editedDescription
         })
