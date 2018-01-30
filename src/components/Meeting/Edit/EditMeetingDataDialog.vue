@@ -1,8 +1,8 @@
 <template>
-<v-dialog width="350px" persistent v-model="editDialog">
- <v-btn accent slot="activator">
+<v-dialog width="350px" slot="activator" persistent v-model="editDialog">
+ <!-- <v-btn accent >
   Edit Date
- </v-btn>
+ </v-btn> -->
  <v-card>
   <v-container>
     <v-layout row wrap>

@@ -10,7 +10,10 @@ import EditMeetingDetailsDialog from './components/Meeting/Edit/EditMeetingDetai
 import EditMeetingDataDialog from './components/Meeting/Edit/EditMeetingDataDialog.vue'
 import EditMeetingTimeDialog from './components/Meeting/Edit/EditMeetingTimeDialog.vue'
 import FullCalendar from 'vue-full-calendar'
+import vmodal from 'vue-js-modal'
 
+window.jQuery = window.$ = require('jquery')
+Vue.use(vmodal)
 Vue.use(Vuetify)
 Vue.config.productionTip = false
 Vue.use(FullCalendar)
