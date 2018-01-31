@@ -20,7 +20,7 @@ Vue.use(FullCalendar)
 Vue.filter('dataf', DateFilter)
 Vue.component('app-alert', AlertCmp)
 Vue.component('app-edit-meeting-details-dialog', EditMeetingDetailsDialog)
-Vue.component('app-editVue.use(FullCalendar)-meeting-data-dialog', EditMeetingDataDialog)
+Vue.component('app-edit-meeting-data-dialog', EditMeetingDataDialog)
 Vue.component('app-edit-meeting-time-dialog', EditMeetingTimeDialog)
 
 /* eslint-disable no-new */

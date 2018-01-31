@@ -60,14 +60,12 @@
                   name="title"
                     label="Title"
                     id="title"
-                    v-model="editedTitle"
                     required></v-text-field>
                   <v-text-field
                     name="description"
                     label="Description"
                     id="description"
                     multi-line 
-                    v-model="editedDescription" 
                     required></v-text-field>
                 </v-card-text>
         </v-flex>
@@ -75,8 +73,8 @@
       <v-divider></v-divider>
       <v-layout row wrap>
         <v-card-actions>
-          <v-btn flat class="blue--text darken-1" @click="$modal.hide('hello-world')">Close</v-btn>
-          <v-btn flat class="blue--text darken-1" @click="onsaveChanges">Save</v-btn>
+          <v-btn flat class="blue--text darken-1" v-on:click="hide" >Close</v-btn>
+          <v-btn flat class="blue--text darken-1">Save</v-btn>
         </v-card-actions>
 
       </v-layout>
@@ -121,11 +119,12 @@
             alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY)
             alert('View: ' + view.name)
         // change the border color just for fun
-            this.css('border-color', 'red')
           },
           dayClick: (date, jsEvent, view) => {
         // change the border color just for fun
             this.$modal.show('hello-world')
+            // console.info(this.$modal('hello-world'))
+            // this.$modal.hide('hello-world')
           },
           eventRender (event, element) {
             element.prop('title', event.description)
@@ -136,6 +135,7 @@
     },
     methods: {
       hide () {
+        console.info(this.$modal.hide('hello-world'))
         this.$modal.hide('hello-world')
       },
       eventSelected (event) {
